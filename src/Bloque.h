@@ -11,22 +11,12 @@ private:
     sf::RectangleShape _bloque;
 	bool _destruido;
 public:
-	Bloque(sf::Vector2f& posicion,sf::Texture& txtBloque)
-	{
-		_destruido = false;
-		_bloque.setSize({ 44.f, 22.f });
-		_bloque.setOrigin(_bloque.getSize().x / 2.f, _bloque.getSize().y / 2.f);
-		_bloque.setPosition(posicion);
-		_bloque.setTexture(&txtBloque);
-	}
+	Bloque(sf::Vector2f& posicion, sf::Texture& txtBloque);
 
 	void setDestruido(bool destruido) { _destruido = destruido; }
 	bool getDestruido() { return _destruido; }
 
-	sf::RectangleShape getDraw()
-	{
-		return _bloque;
-	}
+	sf::RectangleShape getDraw(){return _bloque;}
 
 	float x() { return _bloque.getPosition().x; }
 	float y() { return _bloque.getPosition().y; }
