@@ -1,0 +1,12 @@
+22 x 44 bloques
+1-blanco
+2-naranja
+3-celeste
+4-verde
+5-azul
+6-rojo
+7-rosa
+8-amarillo
+9-acero
+10- oro
+
