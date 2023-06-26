@@ -18,6 +18,31 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Animacion.h" />
+    <ClInclude Include="src\ArchivoPuntajes.h" />
+    <ClInclude Include="src\Background.h" />
+    <ClInclude Include="src\Bloque.h" />
+    <ClInclude Include="src\Bola.h" />
+    <ClInclude Include="src\Gameplay.h" />
+    <ClInclude Include="src\GeneradorDeMapas.h" />
+    <ClInclude Include="src\Menu.h" />
+    <ClInclude Include="src\Paleta.h" />
+    <ClInclude Include="src\Puntajes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Animacion.cpp" />
+    <ClCompile Include="src\ArchivoPuntajes.cpp" />
+    <ClCompile Include="src\Background.cpp" />
+    <ClCompile Include="src\Bloque.cpp" />
+    <ClCompile Include="src\Bola.cpp" />
+    <ClCompile Include="src\Gameplay.cpp" />
+    <ClCompile Include="src\GeneradorDeMapas.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
+    <ClCompile Include="src\Paleta.cpp" />
+    <ClCompile Include="src\Puntajes.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -136,31 +161,6 @@
       <AdditionalDependencies>sfml-window-d.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Animacion.cpp" />
-    <ClCompile Include="ArchivoPuntajes.cpp" />
-    <ClCompile Include="Background.cpp" />
-    <ClCompile Include="Bloque.cpp" />
-    <ClCompile Include="Bola.cpp" />
-    <ClCompile Include="Gameplay.cpp" />
-    <ClCompile Include="GeneradorDeMapas.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Paleta.cpp" />
-    <ClCompile Include="Puntajes.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Animacion.h" />
-    <ClInclude Include="ArchivoPuntajes.h" />
-    <ClInclude Include="Background.h" />
-    <ClInclude Include="Bloque.h" />
-    <ClInclude Include="Bola.h" />
-    <ClInclude Include="Gameplay.h" />
-    <ClInclude Include="GeneradorDeMapas.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Paleta.h" />
-    <ClInclude Include="Puntajes.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
