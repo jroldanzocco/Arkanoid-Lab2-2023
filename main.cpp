@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "Gameplay.h"
+#include "src/Gameplay.h"
+
 int main()
 {
     Gameplay();
