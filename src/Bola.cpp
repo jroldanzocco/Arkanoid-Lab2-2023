@@ -7,8 +7,9 @@ Bola::Bola()
 	_bola.setRadius(7.f);
 	_bola.setPosition({ 256,530 });
 	_bola.setOrigin(_bola.getRadius(), _bola.getRadius());
-	_txtBola.loadFromFile("resources/images/ball.png");
-	_bola.setTexture(&_txtBola);
+	_txtBola = new sf::Texture;
+	_txtBola->loadFromFile("resources/images/ball.png");
+	_bola.setTexture(_txtBola);
 
 }
 

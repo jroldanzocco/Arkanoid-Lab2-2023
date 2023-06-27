@@ -52,6 +52,16 @@ public:
 	void Update();
 	
 	void Draw();
+
+	void ReiniciarJuego()
+	{
+		mapa.generarNivel(1);
+		pelotita = Bola();
+		paleta = Paleta();
+		delete _fondo;
+		_fondo = new Background(JUEGO);
+
+	}
 	
 	~Gameplay();
 };

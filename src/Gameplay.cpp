@@ -15,7 +15,15 @@ Gameplay::Gameplay()
 			}
 		}
 		if (_eleccionMenu == 0)
+		{
 			_estado = NUEVO_JUEGO;
+			ReiniciarJuego();
+			_eleccionMenu = -1;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && _estado == NUEVO_JUEGO)
+		{
+			_estado = MENU_PRINCIPAL;
+		}
 
 		ventana->clear();
 

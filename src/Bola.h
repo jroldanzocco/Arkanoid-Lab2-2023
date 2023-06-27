@@ -3,7 +3,7 @@
 class Bola
 {
 private:
-	sf::Texture _txtBola;
+	sf::Texture* _txtBola;
 	sf::CircleShape _bola;
 	sf::Vector2f _velocidad;
 	float _speed;
