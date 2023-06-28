@@ -57,7 +57,6 @@ public:
 	void Update();
 	
 	void Draw();
-
 	void ReiniciarJuego();
 	void ActualizarPuntos();
 	

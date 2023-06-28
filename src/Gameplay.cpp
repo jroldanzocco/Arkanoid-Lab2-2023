@@ -48,8 +48,16 @@ void Gameplay::Inicializacion()
 	sprborde.setPosition(100, 0);
 	if (!_fuentePuntos.loadFromFile("resources/fonts/pixel.ttf"))
 		throw("No se pudo cargar la fuente");
-	
-	
+	_textoPuntos[0].setFont(_fuentePuntos);
+	_textoPuntos[0].setCharacterSize(24);
+	_textoPuntos[0].setFillColor(sf::Color::Black);
+	_textoPuntos[0].setStyle(sf::Text::Bold);
+	_textoPuntos[0].setPosition(650, 230);
+	_textoPuntos[1].setFont(_fuentePuntos);
+	_textoPuntos[1].setCharacterSize(24);
+	_textoPuntos[1].setFillColor(sf::Color::Black);
+	_textoPuntos[1].setStyle(sf::Text::Bold);
+	_textoPuntos[1].setPosition(650, 260);
 }
 
 void Gameplay::Update()
@@ -146,19 +154,13 @@ void Gameplay::ReiniciarJuego()
 	_fondo = new Background(JUEGO);
 	servido = false;
 	_puntuacion.setPuntaje(0);
-
-	_textoPuntos[0].setFont(_fuentePuntos);
-	_textoPuntos[0].setCharacterSize(24);
-	_textoPuntos[0].setFillColor(sf::Color::Black);
-	_textoPuntos[0].setStyle(sf::Text::Bold);
 	_textoPuntos[0].setString("SCORE");
-	_textoPuntos[0].setPosition(650, 230);
-	_textoPuntos[1].setFont(_fuentePuntos);
-	_textoPuntos[1].setCharacterSize(24);
-	_textoPuntos[1].setFillColor(sf::Color::Black);
-	_textoPuntos[1].setStyle(sf::Text::Bold);
-	_textoPuntos[1].setPosition(650, 260);
+	
 }
+
+
+
+
 
 Gameplay::~Gameplay()
 {
