@@ -102,8 +102,12 @@ void GeneradorDeMapas::Update(Bola& bola)
 		Colision(bola, _bloques[i]);
 		if (_bloques[i].getDestruido())
 		{
-			_bloquesDestruidos += 5;
+			_bloquesDestruidos += 1;
 			_bloques.erase(_bloques.begin() + i);
+			if (_bloquesDestruidos == 1)
+			{
+				bola.setVelocidad({ bola.getSpeed() * -1 , bola.getVelocidad().y });
+			}
 		}
 	}
 }

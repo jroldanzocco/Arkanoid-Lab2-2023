@@ -14,19 +14,20 @@ Gameplay::Gameplay()
 				exit(1);
 			}
 		}
-		if (_eleccionMenu == 0)
-		{
-			_estado = NUEVO_JUEGO;
-			ReiniciarJuego();
-			_eleccionMenu = -1;
-		}
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && _estado == NUEVO_JUEGO)
 		{
 			_estado = MENU_PRINCIPAL;
 		}
 
 		ventana->clear();
-		
+		if (_eleccionMenu == 0)
+		{
+			_nivel = 1;
+			_estado = NUEVO_JUEGO;
+			_eleccionMenu = -1;
+			ReiniciarJuego();
+		}
 		Update();
 		Draw();
 
@@ -37,30 +38,18 @@ Gameplay::Gameplay()
 
 void Gameplay::Inicializacion()
 {
-
 	_eleccionMenu = -1;
-	_puntuacion.setPuntaje(0);
 	ventana = new sf::RenderWindow(sf::VideoMode(800, 600), "Arkanoid");
 	ventana->setFramerateLimit(60);
-	_estado = NUEVO_JUEGO;
+	_estado = MENU_PRINCIPAL;
 	prBorde.loadFromFile("resources/images/borders.png");
 	_fondo = new Background(JUEGO);
 	sprborde.setTexture(prBorde);
 	sprborde.setPosition(100, 0);
-	mapa.generarNivel(1);
 	if (!_fuentePuntos.loadFromFile("resources/fonts/pixel.ttf"))
 		throw("No se pudo cargar la fuente");
-	_textoPuntos[0].setFont(_fuentePuntos);
-	_textoPuntos[0].setCharacterSize(24);
-	_textoPuntos[0].setFillColor(sf::Color::Black);
-	_textoPuntos[0].setStyle(sf::Text::Bold);
-	_textoPuntos[0].setString("SCORE");
-	_textoPuntos[0].setPosition(650, 230);
-	_textoPuntos[1].setFont(_fuentePuntos);
-	_textoPuntos[1].setCharacterSize(24);
-	_textoPuntos[1].setFillColor(sf::Color::Black);
-	_textoPuntos[1].setStyle(sf::Text::Bold);
-	_textoPuntos[1].setPosition(650, 260);
+	
+	
 }
 
 void Gameplay::Update()
@@ -71,10 +60,19 @@ void Gameplay::Update()
 		_eleccionMenu = menuPrincipal.Update();
 		break;
 	case NUEVO_JUEGO:
+		if (!servido) {
+			pelotita.setPosition({ paleta.getPosition().x, (paleta.getPosition().y - paleta.getSize().y / 2.f - 20.f) });
+			paleta.Update(pelotita);
+			ActualizarPuntos();
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				servido = true;
+		}
+		else {
+		paleta.Update(pelotita);
 		mapa.Update(pelotita);
 		pelotita.Update();
-		paleta.Update(pelotita);
 		ActualizarPuntos();
+		}
 		break;
 	case NIVEL_COMPLETADO:
 		break;
@@ -127,7 +125,39 @@ void Gameplay::Draw()
 void Gameplay::ActualizarPuntos()
 {
 	_puntuacion.setPuntaje(mapa.getBloquesDestruidos());
-	_textoPuntos[1].setString(std::to_string(_puntuacion.getPuntaje()));
+	if (_puntuacion.getPuntaje() == 0)
+		_textoPuntos[1].setString("0000");
+	else if(_puntuacion.getPuntaje() > 0)
+		_textoPuntos[1].setString("000" + std::to_string(_puntuacion.getPuntaje()));
+	else if (_puntuacion.getPuntaje() > 10)
+		_textoPuntos[1].setString("00" + std::to_string(_puntuacion.getPuntaje()));
+	else if (_puntuacion.getPuntaje() > 100)
+		_textoPuntos[1].setString("0" + std::to_string(_puntuacion.getPuntaje()));
+	else
+		_textoPuntos[1].setString(std::to_string(_puntuacion.getPuntaje()));
+}
+
+void Gameplay::ReiniciarJuego()
+{
+	mapa.generarNivel(_nivel);
+	pelotita = Bola();
+	paleta = Paleta();
+	delete _fondo;
+	_fondo = new Background(JUEGO);
+	servido = false;
+	_puntuacion.setPuntaje(0);
+
+	_textoPuntos[0].setFont(_fuentePuntos);
+	_textoPuntos[0].setCharacterSize(24);
+	_textoPuntos[0].setFillColor(sf::Color::Black);
+	_textoPuntos[0].setStyle(sf::Text::Bold);
+	_textoPuntos[0].setString("SCORE");
+	_textoPuntos[0].setPosition(650, 230);
+	_textoPuntos[1].setFont(_fuentePuntos);
+	_textoPuntos[1].setCharacterSize(24);
+	_textoPuntos[1].setFillColor(sf::Color::Black);
+	_textoPuntos[1].setStyle(sf::Text::Bold);
+	_textoPuntos[1].setPosition(650, 260);
 }
 
 Gameplay::~Gameplay()

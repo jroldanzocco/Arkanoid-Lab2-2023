@@ -29,6 +29,7 @@ private:
 	Menu menuPrincipal;
 	Puntajes _puntuacion;
 	sf::RenderWindow * ventana;
+	int _nivel;
 	sf::Clock _reloj;
 	sf::Event _evento;
 	ESTADOS_GAMEPLAY _estado;
@@ -46,6 +47,7 @@ private:
 
 	Bola pelotita;
 	GeneradorDeMapas mapa;
+	bool servido;
 	
 public:
 	Gameplay();
@@ -56,16 +58,7 @@ public:
 	
 	void Draw();
 
-	void ReiniciarJuego()
-	{
-		mapa.generarNivel(1);
-		pelotita = Bola();
-		paleta = Paleta();
-		delete _fondo;
-		_fondo = new Background(JUEGO);
-
-	}
-
+	void ReiniciarJuego();
 	void ActualizarPuntos();
 	
 	~Gameplay();

@@ -18,13 +18,10 @@ void Paleta::Update(Bola& bola)
 	_paleta.move(_velocidad);
 	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) && left() > 115.f)
 		_velocidad.x = -_speed;
-
 	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) && right() < 580.f)
 		_velocidad.x = _speed;
-
 	else
 		_velocidad.x = 0;
-
 	Colision(bola);
 
 }
