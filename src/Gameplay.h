@@ -36,6 +36,9 @@ private:
 	Background *_fondo;
 	Paleta paleta;
 
+	sf::Font _fuentePuntos;
+	sf::Text _textoPuntos[2];
+
 	float deltaTime;
 
 	sf::Texture prBorde;
@@ -62,6 +65,8 @@ public:
 		_fondo = new Background(JUEGO);
 
 	}
+
+	void ActualizarPuntos();
 	
 	~Gameplay();
 };

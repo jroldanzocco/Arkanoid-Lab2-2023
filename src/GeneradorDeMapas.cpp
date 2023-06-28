@@ -97,7 +97,6 @@ void GeneradorDeMapas::generarNivel(int nivel)
 
 void GeneradorDeMapas::Update(Bola& bola)
 {
-
 	for (int i = 0; i < _bloques.size(); i++)
 	{
 		Colision(bola, _bloques[i]);
@@ -108,6 +107,7 @@ void GeneradorDeMapas::Update(Bola& bola)
 		}
 	}
 }
+
 
 void GeneradorDeMapas::Draw(sf::RenderWindow& ventana)
 {

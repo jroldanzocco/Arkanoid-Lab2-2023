@@ -19,13 +19,12 @@ public:
 
 	void generarNivel(int nivel);
 
-	
+	int getBloquesDestruidos() { return _bloquesDestruidos; }
 
 	void Update(Bola& bola);
 
 
 	void Draw(sf::RenderWindow& ventana);
-
 	
 
 	void Colision(Bola& bola, Bloque& bloque);

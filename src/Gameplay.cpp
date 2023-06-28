@@ -26,7 +26,7 @@ Gameplay::Gameplay()
 		}
 
 		ventana->clear();
-
+		
 		Update();
 		Draw();
 
@@ -42,12 +42,25 @@ void Gameplay::Inicializacion()
 	_puntuacion.setPuntaje(0);
 	ventana = new sf::RenderWindow(sf::VideoMode(800, 600), "Arkanoid");
 	ventana->setFramerateLimit(60);
-	_estado = MENU_PRINCIPAL;
+	_estado = NUEVO_JUEGO;
 	prBorde.loadFromFile("resources/images/borders.png");
 	_fondo = new Background(JUEGO);
 	sprborde.setTexture(prBorde);
 	sprborde.setPosition(100, 0);
 	mapa.generarNivel(1);
+	if (!_fuentePuntos.loadFromFile("resources/fonts/pixel.ttf"))
+		throw("No se pudo cargar la fuente");
+	_textoPuntos[0].setFont(_fuentePuntos);
+	_textoPuntos[0].setCharacterSize(24);
+	_textoPuntos[0].setFillColor(sf::Color::Black);
+	_textoPuntos[0].setStyle(sf::Text::Bold);
+	_textoPuntos[0].setString("SCORE");
+	_textoPuntos[0].setPosition(650, 230);
+	_textoPuntos[1].setFont(_fuentePuntos);
+	_textoPuntos[1].setCharacterSize(24);
+	_textoPuntos[1].setFillColor(sf::Color::Black);
+	_textoPuntos[1].setStyle(sf::Text::Bold);
+	_textoPuntos[1].setPosition(650, 260);
 }
 
 void Gameplay::Update()
@@ -61,6 +74,7 @@ void Gameplay::Update()
 		mapa.Update(pelotita);
 		pelotita.Update();
 		paleta.Update(pelotita);
+		ActualizarPuntos();
 		break;
 	case NIVEL_COMPLETADO:
 		break;
@@ -91,6 +105,8 @@ void Gameplay::Draw()
 		mapa.Draw(*ventana);
 		ventana->draw(paleta.getDraw());
 		ventana->draw(pelotita.getDraw());
+		ventana->draw(_textoPuntos[0]);
+		ventana->draw(_textoPuntos[1]);
 		break;
 	case NIVEL_COMPLETADO:
 		break;
@@ -105,6 +121,13 @@ void Gameplay::Draw()
 	default:
 		break;
 	}
+}
+
+
+void Gameplay::ActualizarPuntos()
+{
+	_puntuacion.setPuntaje(mapa.getBloquesDestruidos());
+	_textoPuntos[1].setString(std::to_string(_puntuacion.getPuntaje()));
 }
 
 Gameplay::~Gameplay()
