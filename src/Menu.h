@@ -38,7 +38,7 @@ public:
 	Menu();
 
 	void Draw(sf::RenderWindow& ventana);
-	void Update(int &eleccion);
+	int Update();
 	void generartablaPos()
 	{
 		int cantReg = _archPuntaje->contarRegistros();

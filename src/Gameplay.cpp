@@ -12,7 +12,7 @@ Gameplay::Gameplay(unsigned int x, unsigned int y, std::string nombre)
 				_ventana->close();
 				exit(1);
 			}
-			if (_evento.type == sf::Event::TextEntered && _estado == DERROTA)
+			if (_evento.type == sf::Event::TextEntered && _estado == DERROTA || _estado == VICTORIA)
 				_ingresoNombre.escribir(_evento);
 		}
 		_ventana->clear();
@@ -52,18 +52,19 @@ void Gameplay::Update()
 	switch (_estado)
 	{
 	case MENU_PRINCIPAL:
-		_menuPrincipal.Update(_eleccionMenu);
+		_eleccionMenu = _menuPrincipal.Update();
 
-		if (_eleccionMenu == 0)
+		if (_eleccionMenu == 0 )
 		{
 			_nivel = 1;
-			_estado = NUEVO_JUEGO;
-			_vidas = 3;
+			reiniciarJuego(_nivel);
 			_eleccionMenu = -1;
-			reiniciarJuego();
+			_estado = NUEVO_JUEGO;
 		}
 		break;
 	case NUEVO_JUEGO:
+		_textoNivel.setString("NIVEL: " + std::to_string(_nivel));
+		
 		if (!_servir) {
 			_bola.setPosition({ _paleta.getPosition().x, (_paleta.getPosition().y - _paleta.getSize().y / 2.f - 20.f) });
 			_paleta.Update(_bola);
@@ -96,7 +97,16 @@ void Gameplay::Update()
 		if (_vidas == 0)
 			_estado = DERROTA;
 		if (_nivel == _nivelMax && _mapa.getBloquesActivos() == 0)
+		{
 			_estado = VICTORIA;
+		}
+		else if (_nivel < _nivelMax && _mapa.getBloquesActivos() == 0)
+		{
+			_nivel++;
+			reiniciarJuego(_nivel);
+			_servir = false;
+		}
+
 
 		if (_vidas == 3)
 			_rectVidas.setTextureRect(sf::IntRect(0, 0, 795, 230));
@@ -107,8 +117,11 @@ void Gameplay::Update()
 		else
 			_rectVidas.setTextureRect(sf::IntRect(795, 0, 795, 230));
 		}
+		
 		break;
 	case NIVEL_COMPLETADO:
+		_mapa.generarNivel(_nivel);
+		_estado = NUEVO_JUEGO;
 		break;
 	case VICTORIA:
 		_rectVictODerr.setTexture(&_texturasVictODerr[1]);
@@ -129,8 +142,6 @@ void Gameplay::Update()
 			_puntuacion.setNombre(_ingresoNombre.getText().c_str());
 			if(_puntuacion.getPuntaje() > 0)
 				registrarPuntaje();
-			
-			_estado = MENU_PRINCIPAL;
 		}
 		
 		break;
@@ -157,6 +168,7 @@ void Gameplay::Draw()
 		_ventana->draw(_textoPuntos[0]);
 		_ventana->draw(_textoPuntos[1]);
 		_ventana->draw(_rectVidas);
+		_ventana->draw(_textoNivel);
 		break;
 	case NIVEL_COMPLETADO:
 		break;
@@ -194,9 +206,10 @@ void Gameplay::actualizarPuntos()
 		_textoPuntos[1].setString(std::to_string(_puntuacion.getPuntaje()));
 }
 
-void Gameplay::reiniciarJuego()
+void Gameplay::reiniciarJuego(int nivel)
 {
-	_mapa.generarNivel(_nivel);
+	_mapa.generarNivel(nivel);
+	_vidas = 3;
 	_rectVidas.setTextureRect(sf::IntRect(0, 0, 795, 230));
 	_bola = Bola();
 	_paleta = Paleta();
@@ -204,9 +217,8 @@ void Gameplay::reiniciarJuego()
 	_fondo = new Background(JUEGO);
 	_servir = false;
 	_textoPuntos[0].setString("SCORE");
-	if(_nivel == 1)
+	if(nivel == 1)
 		_puntuacion.setPuntaje(0);
-	_ingresoNombre.setTexto("");
 }
 
 void Gameplay::gestionarTextos()
@@ -235,6 +247,12 @@ void Gameplay::gestionarTextos()
 	_textoDerrota.setCharacterSize(16);
 	_textoDerrota.setPosition(160, 430);
 	_textoDerrota.setString("Ingresa tu nombre y presiona ENTER");
+
+	_textoNivel.setFont(_fuenteVenus);
+	_textoNivel.setStyle(sf::Text::Bold);
+	_textoNivel.setCharacterSize(16);
+	_textoNivel.setPosition(630, 550);
+	_textoNivel.setFillColor(sf::Color::White);
 }
 
 void Gameplay::registrarPuntaje()

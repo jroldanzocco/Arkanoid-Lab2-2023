@@ -45,9 +45,10 @@ private:
 	sf::Texture _texturasVictODerr[2];
 	sf::RectangleShape _rectVictODerr;
 	sf::Text _textoDerrota;
+	sf::Text _textoNivel;
 
 	int _eleccionMenu;
-	int _nivel, _nivelMax = 1;
+	int _nivel, _nivelMax = 2;
 	int _vidas;
 	bool _servir;
 	
@@ -65,7 +66,7 @@ public:
 	void Update();
 	void gestionarTextos();
 	void Draw();
-	void reiniciarJuego();
+	void reiniciarJuego(int nivel);
 	void actualizarPuntos();
 	
 	bool ComprobarGuardado();

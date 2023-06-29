@@ -86,7 +86,7 @@ Menu::Menu()
 	_rectBotones[3].setFillColor(sf::Color(255, 255, 255, 180));
 }
 
-void Menu::Update(int &_eleccion)
+int Menu::Update()
 {
 	switch (_estado)
 	{
@@ -154,7 +154,7 @@ void Menu::Update(int &_eleccion)
 			switch (_botonSeleccionado)
 			{
 			case 0:
-				_eleccion = _botonSeleccionado;
+				return _botonSeleccionado;
 				break;
 			case 1:
 				_estado = MEJOR_PUNTUACION;
@@ -162,9 +162,10 @@ void Menu::Update(int &_eleccion)
 			case 2:
 				break;
 			case 3:
-				_eleccion = _botonSeleccionado;
+				return 3;
 				break;
 			default:
+				return -1;
 				break;
 			}
 		}
@@ -182,6 +183,7 @@ void Menu::Update(int &_eleccion)
 	default:
 		break;
 	}
+	return -1;
 }
 
 void Menu::Draw(sf::RenderWindow& ventana)
