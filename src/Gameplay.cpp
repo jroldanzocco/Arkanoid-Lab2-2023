@@ -50,12 +50,12 @@ void Gameplay::Inicializacion()
 		throw("No se pudo cargar la fuente");
 	_textoPuntos[0].setFont(_fuentePuntos);
 	_textoPuntos[0].setCharacterSize(24);
-	_textoPuntos[0].setFillColor(sf::Color::Black);
+	_textoPuntos[0].setFillColor(sf::Color::Blue);
 	_textoPuntos[0].setStyle(sf::Text::Bold);
 	_textoPuntos[0].setPosition(650, 230);
 	_textoPuntos[1].setFont(_fuentePuntos);
 	_textoPuntos[1].setCharacterSize(24);
-	_textoPuntos[1].setFillColor(sf::Color::Black);
+	_textoPuntos[1].setFillColor(sf::Color::Red);
 	_textoPuntos[1].setStyle(sf::Text::Bold);
 	_textoPuntos[1].setPosition(650, 260);
 }
@@ -132,16 +132,18 @@ void Gameplay::Draw()
 
 void Gameplay::ActualizarPuntos()
 {
-	_puntuacion.setPuntaje(mapa.getBloquesDestruidos());
+	_puntuacion.setPuntaje(mapa.getBloquesDestruidos() * 900);
 	if (_puntuacion.getPuntaje() == 0)
-		_textoPuntos[1].setString("0000");
-	else if(_puntuacion.getPuntaje() > 0)
+		_textoPuntos[1].setString("00000");
+	else if(_puntuacion.getPuntaje() < 10)
+		_textoPuntos[1].setString("0000" + std::to_string(_puntuacion.getPuntaje()));
+	else if (_puntuacion.getPuntaje() < 100)
 		_textoPuntos[1].setString("000" + std::to_string(_puntuacion.getPuntaje()));
-	else if (_puntuacion.getPuntaje() > 10)
+	else if (_puntuacion.getPuntaje() < 1000)
 		_textoPuntos[1].setString("00" + std::to_string(_puntuacion.getPuntaje()));
-	else if (_puntuacion.getPuntaje() > 100)
+	else if (_puntuacion.getPuntaje() < 10000)
 		_textoPuntos[1].setString("0" + std::to_string(_puntuacion.getPuntaje()));
-	else
+	else 
 		_textoPuntos[1].setString(std::to_string(_puntuacion.getPuntaje()));
 }
 

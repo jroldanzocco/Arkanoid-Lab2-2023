@@ -18,6 +18,7 @@ GeneradorDeMapas::GeneradorDeMapas()
 
 void GeneradorDeMapas::generarNivel(int nivel)
 {
+	_bloquesDestruidos = 0;
 	switch (nivel)
 	{
 	case 1:
