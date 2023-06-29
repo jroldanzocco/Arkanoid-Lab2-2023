@@ -2,7 +2,7 @@
 
 Puntajes::Puntajes()
 {
-	strcpy(_nombreJugador, "Mr. X");
+	strcpy(_nombreJugador,"");
 	_puntaje = 0;
 
 }

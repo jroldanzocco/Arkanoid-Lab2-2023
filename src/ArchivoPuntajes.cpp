@@ -3,7 +3,8 @@
 Puntajes ArchivoPuntajes::leerRegistro(int pos) {
     Puntajes reg;
     FILE* p;
-    reg.setPuntaje(-1);
+    reg.setNombre("Mr.X");
+    reg.setPuntaje(0);
     p = fopen(_nombre, "rb");
     if (p == NULL) return reg;
     fseek(p, sizeof(Puntajes) * pos, 0);
@@ -20,4 +21,27 @@ int ArchivoPuntajes::contarRegistros() {
     int tam = ftell(p);
     fclose(p);
     return tam / sizeof(Puntajes);
+}
+
+bool ArchivoPuntajes::guardar(Puntajes reg)
+{
+    FILE* p = fopen(_nombre, "ab");
+
+    if (p == NULL)
+    {
+        return false;
+    }
+
+    bool pudoEscribir = fwrite(&reg, sizeof(Puntajes), 1, p);
+    fclose(p);
+    return pudoEscribir;
+}
+
+void ArchivoPuntajes::vaciar() {
+    FILE* p = fopen(_nombre, "wb");
+        if (p == NULL)
+        {
+            return;
+        }
+    fclose(p);
 }

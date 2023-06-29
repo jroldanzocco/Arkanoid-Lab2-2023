@@ -12,6 +12,8 @@ Gameplay::Gameplay(unsigned int x, unsigned int y, std::string nombre)
 				_ventana->close();
 				exit(1);
 			}
+			if (_evento.type == sf::Event::TextEntered && _estado == DERROTA)
+				_ingresoNombre.escribir(_evento);
 		}
 		_ventana->clear();
 		Update();
@@ -23,8 +25,8 @@ Gameplay::Gameplay(unsigned int x, unsigned int y, std::string nombre)
 
 void Gameplay::inicializacion()
 {
+	_archPuntos = new ArchivoPuntajes("leaderboard.dat");
 	_eleccionMenu = -1;
-
 	_ventana->setFramerateLimit(60);
 	_estado = MENU_PRINCIPAL;
 	prBorde.loadFromFile("resources/images/borders.png");
@@ -41,6 +43,8 @@ void Gameplay::inicializacion()
 	_rectVictODerr.setPosition(400, 300);
 	_rectVictODerr.setSize({500.f, 300.f});
 	_rectVictODerr.setOrigin({ _rectVictODerr.getSize().x / 2.f, _rectVictODerr.getSize().y / 2.f });
+	_ingresoNombre.setFuente(_fuenteVenus);
+	_ingresoNombre.setPosition({ 280.f, 376.f });
 }
 
 void Gameplay::Update()
@@ -68,6 +72,10 @@ void Gameplay::Update()
 			{
 				_servir = true;
 			}		
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			{
+				_estado = MENU_PRINCIPAL;
+			}
 		}
 		else {
 		_paleta.Update(_bola);
@@ -98,15 +106,21 @@ void Gameplay::Update()
 		else
 			_rectVidas.setTextureRect(sf::IntRect(795, 0, 795, 230));
 		}
-		//derrota(true);
 		break;
 	case NIVEL_COMPLETADO:
 		break;
 	case DERROTA:
 		_rectVictODerr.setTexture(&_texturasVictODerr[0]);
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			_estado = MENU_PRINCIPAL;
+		{
+			_puntuacion.setNombre(_ingresoNombre.getText().c_str());
+			if(_puntuacion.getPuntaje() > 0)
+				registrarPuntaje();
 			
+			_estado = MENU_PRINCIPAL;
+		}
+		
 		break;
 	default:
 		break;
@@ -137,6 +151,7 @@ void Gameplay::Draw()
 	case DERROTA:
 		_ventana->draw(_fondo->getDraw());
 		_ventana->draw(_rectVictODerr);
+		_ventana->draw(_ingresoNombre.getDraw());
 		_ventana->draw(_textoDerrota);
 		break;
 	default:
@@ -174,7 +189,7 @@ void Gameplay::reiniciarJuego()
 	_textoPuntos[0].setString("SCORE");
 	if(_nivel == 1)
 		_puntuacion.setPuntaje(0);
-	
+	_ingresoNombre.setTexto("");
 }
 
 void Gameplay::gestionarTextos()
@@ -197,12 +212,65 @@ void Gameplay::gestionarTextos()
 
 	if (!_fuenteVenus.loadFromFile("resources/fonts/venus.ttf"))
 		throw("No se pudo cargar la fuente");
-	_textoDerrota.setFillColor(sf::Color::White);
+	_textoDerrota.setFillColor(sf::Color::Black);
 	_textoDerrota.setStyle(sf::Text::Bold);
 	_textoDerrota.setFont(_fuenteVenus);
-	_textoDerrota.setCharacterSize(10);
-	_textoDerrota.setPosition(220, 385);
+	_textoDerrota.setCharacterSize(16);
+	_textoDerrota.setPosition(160, 430);
 	_textoDerrota.setString("Ingresa tu nombre y presiona ENTER");
+}
+
+void Gameplay::registrarPuntaje()
+{
+	
+	Puntajes* puntAux;
+	puntAux = new Puntajes[11];
+	int cantReg = _archPuntos->contarRegistros();
+	
+	puntAux[10] = _puntuacion;
+
+	for (int i = 0; i < cantReg; i++)
+	{
+		puntAux[i] = _archPuntos->leerRegistro(i);
+	}
+
+	sortPuntajes(puntAux, 11);
+
+	if (cantReg > 10)
+	{
+		_archPuntos->vaciar();
+	}
+		
+	for (int i = 0; i < 10; i++)
+	{
+		if (puntAux[i].getPuntaje() != 0)
+			_archPuntos->guardar(puntAux[i]);
+	}
+
+	for (int i = 0; i < cantReg; i++)
+	{
+		std::cout << _archPuntos->leerRegistro(i).getNombre() << " " << _archPuntos->leerRegistro(i).getPuntaje() << std::endl;
+	}
+
+	delete[] puntAux;
+
+}
+
+void Gameplay::sortPuntajes(Puntajes arr[], int n)
+{
+	int i, j;
+	bool swapped;
+	for (i = 0; i < n - 1; i++) {
+		swapped = false;
+		for (j = 0; j < n - i - 1; j++) {
+			if (arr[j].getPuntaje() < arr[j + 1].getPuntaje()) {
+				std::swap(arr[j], arr[j + 1]);
+				swapped = true;
+			}
+		}
+		if (swapped == false)
+			break;
+	}
 }
 
 Gameplay::~Gameplay()

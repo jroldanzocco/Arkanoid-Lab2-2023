@@ -7,6 +7,8 @@
 #include "Paleta.h"
 #include "GeneradorDeMapas.h"
 #include "Puntajes.h"
+#include "ArchivoPuntajes.h"
+#include "CajaDeTexto.h"
 
 enum ESTADOS_GAMEPLAY
 {
@@ -26,7 +28,9 @@ private:
 	Paleta _paleta;
 	Bola _bola;
 	GeneradorDeMapas _mapa;
+	ArchivoPuntajes* _archPuntos;
 	Puntajes _puntuacion;
+	CajaDeTexto _ingresoNombre;
 	ESTADOS_GAMEPLAY _estado;
 	
 	sf::Clock _reloj;
@@ -63,7 +67,13 @@ public:
 	void reiniciarJuego();
 	void actualizarPuntos();
 	
+	bool ComprobarGuardado();
 	
+	void registrarPuntaje();
+
+	void sortPuntajes(Puntajes arr[], int n);
+
+
 	~Gameplay();
 };
 
