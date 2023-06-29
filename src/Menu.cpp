@@ -3,6 +3,7 @@
 
 Menu::Menu()
 {
+	_archPuntaje = new ArchivoPuntajes("leaderboard.dat");
 	_estado = PRINCIPAL;
 	_fondo = new Background(MENU);
 	_botonSeleccionado = 0;
@@ -22,36 +23,66 @@ Menu::Menu()
 	_txtBotonChico[1].loadFromFile("resources/images/menu/puntos80.png");
 	_txtBotonChico[2].loadFromFile("resources/images/menu/about80.png");
 	_txtBotonChico[3].loadFromFile("resources/images/menu/salir80.png");
+	
+	_botonFlecha[0].loadFromFile("resources/images/menu/flechaIzq.png");
+	_botonFlecha[1].loadFromFile("resources/images/menu/flechaDer.png");
 
+	_rectFlechas[0].setTexture(&_botonFlecha[0]);
+	_rectFlechas[0].setPosition(200.f, 450.f);
+	_rectFlechas[0].setSize({ 100, 100 });
 
-	_sprBotones = new sf::RectangleShape[4];
+	_rectFlechas[1].setTexture(&_botonFlecha[1]);
+	_rectFlechas[1].setPosition(500.f, 450.f);
+	_rectFlechas[1].setSize({ 100, 100 });
 
+	_rectBotones = new sf::RectangleShape[4];
 
-	_sprBotones[0].setTexture(&_txtBotonGrande[0]);
-	_sprBotones[0].setSize({ 160, 160 });
-	_sprBotones[0].setOrigin(_sprBotones[0].getSize().x / 2, _sprBotones[0].getSize().y / 2);
-	_sprBotones[0].setPosition(400, 500);
+	_txtTablaPos.loadFromFile("resources/images/menu/tabla.png");
+	_rectTablaPos.setTexture(&_txtTablaPos);
+	_rectTablaPos.setPosition(100, 50);
+	_rectTablaPos.setOrigin(_rectTablaPos.getSize().x / 2.f, _rectTablaPos.getSize().y / 2.f);
+	_rectTablaPos.setSize({ 600,500 });
 
-	_sprBotones[1].setTexture(&_txtBotonChico[1]);
-	_sprBotones[1].setSize({ 80, 80 });
-	_sprBotones[1].setOrigin(_sprBotones[1].getSize().x / 2, _sprBotones[1].getSize().y / 2);
-	_sprBotones[1].setPosition(250, 400);
-	_sprBotones[1].setFillColor(sf::Color(255, 255, 255, 180));
+	if (!_fuenteVenus.loadFromFile("resources/fonts/venus.ttf"))
+		throw("No se pudo cargar la fuente");
+	int posY = 100;
+	for (int i = 0; i < 10; i++)
+	{
+		posiciones[i].setFont(_fuenteVenus);
+		posiciones[i].setCharacterSize(24);
+		posiciones[i].setFillColor(sf::Color::Black);
+		posiciones[i].setStyle(sf::Text::Bold);
+		posiciones[i].setPosition(150, posY);
+		posY+= 40;
+	}
 
-	_sprBotones[2].setTexture(&_txtBotonChico[2]);
-	_sprBotones[2].setSize({ 80, 80 });
-	_sprBotones[2].setOrigin(_sprBotones[2].getSize().x / 2, _sprBotones[2].getSize().y / 2);
-	_sprBotones[2].setPosition(400, 300);
-	_sprBotones[2].setFillColor(sf::Color(255, 255, 255, 180));
+	textoClasificacion.setFont(_fuenteVenus);
 
-	_sprBotones[3].setTexture(&_txtBotonChico[3]);
-	_sprBotones[3].setSize({ 80, 80 });
-	_sprBotones[3].setOrigin(_sprBotones[3].getSize().x / 2, _sprBotones[3].getSize().y / 2);
-	_sprBotones[3].setPosition(550, 400);
-	_sprBotones[3].setFillColor(sf::Color(255, 255, 255, 180));
+	_rectBotones[0].setTexture(&_txtBotonGrande[0]);
+	_rectBotones[0].setSize({ 160, 160 });
+	_rectBotones[0].setOrigin(_rectBotones[0].getSize().x / 2, _rectBotones[0].getSize().y / 2);
+	_rectBotones[0].setPosition(400, 500);
+
+	_rectBotones[1].setTexture(&_txtBotonChico[1]);
+	_rectBotones[1].setSize({ 80, 80 });
+	_rectBotones[1].setOrigin(_rectBotones[1].getSize().x / 2, _rectBotones[1].getSize().y / 2);
+	_rectBotones[1].setPosition(250, 400);
+	_rectBotones[1].setFillColor(sf::Color(255, 255, 255, 180));
+
+	_rectBotones[2].setTexture(&_txtBotonChico[2]);
+	_rectBotones[2].setSize({ 80, 80 });
+	_rectBotones[2].setOrigin(_rectBotones[2].getSize().x / 2, _rectBotones[2].getSize().y / 2);
+	_rectBotones[2].setPosition(400, 300);
+	_rectBotones[2].setFillColor(sf::Color(255, 255, 255, 180));
+
+	_rectBotones[3].setTexture(&_txtBotonChico[3]);
+	_rectBotones[3].setSize({ 80, 80 });
+	_rectBotones[3].setOrigin(_rectBotones[3].getSize().x / 2, _rectBotones[3].getSize().y / 2);
+	_rectBotones[3].setPosition(550, 400);
+	_rectBotones[3].setFillColor(sf::Color(255, 255, 255, 180));
 }
 
-int Menu::Update()
+void Menu::Update(int &_eleccion)
 {
 	switch (_estado)
 	{
@@ -79,10 +110,10 @@ int Menu::Update()
 				_cuartoBoton = 3;
 			}
 
-			_sprBotones[0].setTexture(&_txtBotonGrande[_botonSeleccionado]);
-			_sprBotones[1].setTexture(&_txtBotonChico[_segundoBoton]);
-			_sprBotones[2].setTexture(&_txtBotonChico[_tercerBoton]);
-			_sprBotones[3].setTexture(&_txtBotonChico[_cuartoBoton]);
+			_rectBotones[0].setTexture(&_txtBotonGrande[_botonSeleccionado]);
+			_rectBotones[1].setTexture(&_txtBotonChico[_segundoBoton]);
+			_rectBotones[2].setTexture(&_txtBotonChico[_tercerBoton]);
+			_rectBotones[3].setTexture(&_txtBotonChico[_cuartoBoton]);
 			_reloj.restart();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && _reloj.getElapsedTime().asMilliseconds() >= 300)
@@ -108,10 +139,10 @@ int Menu::Update()
 				_cuartoBoton = 0;
 			}
 
-			_sprBotones[0].setTexture(&_txtBotonGrande[_botonSeleccionado]);
-			_sprBotones[1].setTexture(&_txtBotonChico[_segundoBoton]);
-			_sprBotones[2].setTexture(&_txtBotonChico[_tercerBoton]);
-			_sprBotones[3].setTexture(&_txtBotonChico[_cuartoBoton]);
+			_rectBotones[0].setTexture(&_txtBotonGrande[_botonSeleccionado]);
+			_rectBotones[1].setTexture(&_txtBotonChico[_segundoBoton]);
+			_rectBotones[2].setTexture(&_txtBotonChico[_tercerBoton]);
+			_rectBotones[3].setTexture(&_txtBotonChico[_cuartoBoton]);
 			_reloj.restart();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -119,31 +150,34 @@ int Menu::Update()
 			switch (_botonSeleccionado)
 			{
 			case 0:
-				return _botonSeleccionado;
+				_eleccion = _botonSeleccionado;
 				break;
 			case 1:
-				return _botonSeleccionado;
+				_estado = MEJOR_PUNTUACION;
 				break;
 			case 2:
-				return _botonSeleccionado;
 				break;
 			case 3:
-				return 3;
+				_eleccion = _botonSeleccionado;
 				break;
 			default:
-				return -1;
 				break;
 			}
 		}
 		break;
 	case MEJOR_PUNTUACION:
+		
+		generartablaPos();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			_estado = PRINCIPAL;
+		}
 		break;
 	case CREDITOS:
 		break;
 	default:
 		break;
 	}
-	return -1;
 }
 
 void Menu::Draw(sf::RenderWindow& ventana)
@@ -153,12 +187,19 @@ void Menu::Draw(sf::RenderWindow& ventana)
 	switch (_estado)
 	{
 	case PRINCIPAL:
-		ventana.draw(_sprBotones[0]);
-		ventana.draw(_sprBotones[1]);
-		ventana.draw(_sprBotones[2]);
-		ventana.draw(_sprBotones[3]);
+		ventana.draw(_rectBotones[0]);
+		ventana.draw(_rectBotones[1]);
+		ventana.draw(_rectBotones[2]);
+		ventana.draw(_rectBotones[3]);
+		ventana.draw(_rectFlechas[0]);
+		ventana.draw(_rectFlechas[1]);
 		break;
 	case MEJOR_PUNTUACION:
+		ventana.draw(_rectTablaPos);
+		for (int i = 0; i < 10; i++)
+		{
+			ventana.draw(posiciones[i]);
+		}
 		break;
 	case CREDITOS:
 		break;
@@ -172,6 +213,5 @@ Menu::~Menu()
 	delete _fondo;
 	delete[] _txtBotonChico;
 	delete[] _txtBotonGrande;
-	delete[] _sprBotones;
-
+	delete[] _rectBotones;
 }

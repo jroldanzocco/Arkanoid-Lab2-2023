@@ -52,7 +52,7 @@ void Gameplay::Update()
 	switch (_estado)
 	{
 	case MENU_PRINCIPAL:
-		_eleccionMenu = _menuPrincipal.Update();
+		_menuPrincipal.Update(_eleccionMenu);
 
 		if (_eleccionMenu == 0)
 		{
@@ -250,7 +250,7 @@ void Gameplay::registrarPuntaje()
 	{
 		puntAux[i] = _archPuntos->leerRegistro(i);
 	}
-
+	_archPuntos->vaciar();
 	sortPuntajes(puntAux, 11);
 
 	if (cantReg > 10)
