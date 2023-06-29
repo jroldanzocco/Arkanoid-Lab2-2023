@@ -24,7 +24,13 @@ public:
 		return n; 
 	}
 	int getBloquesDestruidos() { return _bloquesDestruidos; }
-
+	void setColorBloques(sf::Color& color) 
+	{
+		for (auto& bloques : _bloques)
+		{
+			bloques.setColor(color);
+		}
+	}
 	void Update(Bola& bola);
 
 

@@ -12,7 +12,7 @@ private:
 	bool _destruido;
 public:
 	Bloque(sf::Vector2f& posicion, sf::Texture& txtBloque);
-
+	void setColor(sf::Color& color) { _bloque.setFillColor(color); }
 	void setDestruido(bool destruido) { _destruido = destruido; }
 	bool getDestruido() { return _destruido; }
 

@@ -12,13 +12,8 @@ enum ESTADOS_GAMEPLAY
 {
 	MENU_PRINCIPAL,
 	NUEVO_JUEGO,
-	JUEGO_EN_PAUSA,
 	NIVEL_COMPLETADO,
-	NIVEL_PERDIDO,
-	PUNTUACION,
-	SELECCION_PALETA,
-	GAME_OVER,
-	INGRESAR_NOMBRE
+	DERROTA
 };
 
 
@@ -28,7 +23,7 @@ private:
 	sf::RenderWindow * _ventana;
 	Menu _menuPrincipal;
 	Background* _fondo;
-	Paleta paleta;
+	Paleta _paleta;
 	Bola _bola;
 	GeneradorDeMapas _mapa;
 	Puntajes _puntuacion;
@@ -37,9 +32,14 @@ private:
 	sf::Clock _reloj;
 	sf::Event _evento;
 
+	sf::Font _fuenteVenus;
 	sf::Font _fuentePuntos;
 	sf::Text _textoPuntos[2];
+	sf::RectangleShape _rectScore;
 
+	sf::Texture _texturasVictODerr[2];
+	sf::RectangleShape _rectVictODerr;
+	sf::Text _textoDerrota;
 
 	int _eleccionMenu;
 	int _nivel;
@@ -55,13 +55,14 @@ private:
 public:
 	Gameplay(unsigned int x, unsigned int y, std::string nombre);
 
-	void Inicializacion();
+	void inicializacion();
 
 	void Update();
 	void gestionarTextos();
 	void Draw();
-	void ReiniciarJuego();
-	void ActualizarPuntos();
+	void reiniciarJuego();
+	void actualizarPuntos();
+	
 	
 	~Gameplay();
 };

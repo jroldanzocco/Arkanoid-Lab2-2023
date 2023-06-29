@@ -36,6 +36,7 @@ public:
 	void setVida(int vida) { _vida = vida; }
 	void setVelocidad(float velocidad) { _speed = velocidad; }
 	void setEstado(ESTADOS_PALETA estado) { _estado = estado; }
+	void setColor(sf::Color color) { _paleta.setFillColor(color); }
 	sf::RectangleShape getDraw(){return _paleta;}
 	void Update(Bola& bola);
 

@@ -10,6 +10,7 @@ private:
 public:
 	Bola();
 	float getSpeed() { return _speed; }
+	void setColor(sf::Color& color) { _bola.setFillColor(color); }
 	void setVelocidad(sf::Vector2f velocidad) { _direccion = velocidad; }
 	void setPosition(sf::Vector2f pos) { _bola.setPosition(pos); }
 	sf::Vector2f getVelocidad() { return _direccion; }

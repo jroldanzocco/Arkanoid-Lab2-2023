@@ -16,7 +16,7 @@ private:
 
 public:
 	Background(IMG_BACK imagen);
-
+	void setColor(sf::Color color) { _sprBackGround[1].setColor(color); }
 	sf::Sprite getDraw();
 
 	~Background();
