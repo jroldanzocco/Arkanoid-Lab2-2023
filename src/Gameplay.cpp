@@ -1,8 +1,8 @@
 #include "Gameplay.h"
 
-Gameplay::Gameplay()
+Gameplay::Gameplay(float x, float y, std::string nombre)
 {
-
+	ventana = new sf::RenderWindow(sf::VideoMode(x,y), nombre);
 	Inicializacion();
 	while (ventana->isOpen())
 	{
@@ -39,7 +39,7 @@ Gameplay::Gameplay()
 void Gameplay::Inicializacion()
 {
 	_eleccionMenu = -1;
-	ventana = new sf::RenderWindow(sf::VideoMode(800, 600), "Arkanoid");
+	
 	ventana->setFramerateLimit(60);
 	_estado = MENU_PRINCIPAL;
 	prBorde.loadFromFile("resources/images/borders.png");

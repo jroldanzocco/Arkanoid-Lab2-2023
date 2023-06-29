@@ -4,9 +4,7 @@
 #include "src/CajaDeTexto.h"
 int main()
 {
-    Gameplay();
-
-    
+    Gameplay game(800,600,"Demoledor - an Arkanoid Clone");
 
     return 0;
 }

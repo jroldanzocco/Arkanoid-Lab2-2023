@@ -50,7 +50,7 @@ private:
 	bool servido;
 	
 public:
-	Gameplay();
+	Gameplay(float x, float y, std::string nombre);
 
 	void Inicializacion();
 
