@@ -40,11 +40,14 @@ private:
 	sf::Font _fuentePuntos;
 	sf::Text _textoPuntos[2];
 
+
 	int _eleccionMenu;
 	int _nivel;
 	int _vidas;
 	bool _servir;
 	
+	sf::Texture _txtVidas;
+	sf::RectangleShape _rectVidas;
 
 	sf::Texture prBorde;
 	sf::Sprite sprborde;

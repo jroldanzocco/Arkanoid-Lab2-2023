@@ -13,14 +13,9 @@ Gameplay::Gameplay(unsigned int x, unsigned int y, std::string nombre)
 				exit(1);
 			}
 		}
-		
-		
-
 		_ventana->clear();
-		
 		Update();
 		Draw();
-
 		_ventana->display();
 	}
 
@@ -36,8 +31,12 @@ void Gameplay::Inicializacion()
 	_fondo = new Background(JUEGO);
 	sprborde.setTexture(prBorde);
 	sprborde.setPosition(100, 0);
-	
 	gestionarTextos();
+	_txtVidas.loadFromFile("resources/images/vidas.png");
+	_rectVidas.setPosition(650,100);
+	_rectVidas.setTexture(&_txtVidas);
+	_rectVidas.setSize({117.f, 34.f});
+	
 }
 
 void Gameplay::Update()
@@ -77,14 +76,19 @@ void Gameplay::Update()
 			_servir = false;
 			_bola.setVelocidad({ 0.f, _bola.getSpeed() * -1 });
 		}
-		if (_vidas == 0)
-		{
-			_estado = MENU_PRINCIPAL;
-		}
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			_estado = MENU_PRINCIPAL;
 		}
+		if (_vidas == 3)
+			_rectVidas.setTextureRect(sf::IntRect(0, 0, 795, 230));
+		else if(_vidas == 2)
+			_rectVidas.setTextureRect(sf::IntRect(265, 0, 795, 230));
+		else if (_vidas == 1)
+			_rectVidas.setTextureRect(sf::IntRect(530, 0, 795, 230));
+		else
+			_rectVidas.setTextureRect(sf::IntRect(795, 0, 795, 230));
 		}
 		break;
 	case NIVEL_COMPLETADO:
@@ -118,6 +122,7 @@ void Gameplay::Draw()
 		_ventana->draw(_bola.getDraw());
 		_ventana->draw(_textoPuntos[0]);
 		_ventana->draw(_textoPuntos[1]);
+		_ventana->draw(_rectVidas);
 		break;
 	case NIVEL_COMPLETADO:
 		break;
@@ -155,6 +160,7 @@ void Gameplay::ActualizarPuntos()
 void Gameplay::ReiniciarJuego()
 {
 	_mapa.generarNivel(_nivel);
+	_rectVidas.setTextureRect(sf::IntRect(0, 0, 795, 230));
 	_bola = Bola();
 	paleta = Paleta();
 	delete _fondo;
