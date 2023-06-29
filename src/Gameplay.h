@@ -7,7 +7,6 @@
 #include "Paleta.h"
 #include "GeneradorDeMapas.h"
 #include "Puntajes.h"
-#include "Animacion.h"
 
 enum ESTADOS_GAMEPLAY
 {
@@ -26,36 +25,37 @@ enum ESTADOS_GAMEPLAY
 class Gameplay
 {
 private:
-	Menu menuPrincipal;
+	sf::RenderWindow * _ventana;
+	Menu _menuPrincipal;
+	Background* _fondo;
+	Paleta paleta;
+	Bola _bola;
+	GeneradorDeMapas _mapa;
 	Puntajes _puntuacion;
-	sf::RenderWindow * ventana;
-	int _nivel;
+	ESTADOS_GAMEPLAY _estado;
+	
 	sf::Clock _reloj;
 	sf::Event _evento;
-	ESTADOS_GAMEPLAY _estado;
-	int _eleccionMenu;
-	Background *_fondo;
-	Paleta paleta;
 
 	sf::Font _fuentePuntos;
 	sf::Text _textoPuntos[2];
 
-	float deltaTime;
+	int _eleccionMenu;
+	int _nivel;
+	int _vidas;
+	bool _servir;
+	
 
 	sf::Texture prBorde;
 	sf::Sprite sprborde;
-
-	Bola pelotita;
-	GeneradorDeMapas mapa;
-	bool servido;
 	
 public:
-	Gameplay(float x, float y, std::string nombre);
+	Gameplay(unsigned int x, unsigned int y, std::string nombre);
 
 	void Inicializacion();
 
 	void Update();
-	
+	void gestionarTextos();
 	void Draw();
 	void ReiniciarJuego();
 	void ActualizarPuntos();

@@ -1,37 +1,27 @@
 #include "Gameplay.h"
 
-Gameplay::Gameplay(float x, float y, std::string nombre)
+Gameplay::Gameplay(unsigned int x, unsigned int y, std::string nombre)
 {
-	ventana = new sf::RenderWindow(sf::VideoMode(x,y), nombre);
+	_ventana = new sf::RenderWindow(sf::VideoMode(x,y), nombre);
 	Inicializacion();
-	while (ventana->isOpen())
+	while (_ventana->isOpen())
 	{
-		deltaTime = _reloj.restart().asSeconds();
-		while (ventana->pollEvent(_evento))
+		while (_ventana->pollEvent(_evento))
 		{
 			if (_evento.type == sf::Event::Closed || _eleccionMenu == 3) {
-				ventana->close();
+				_ventana->close();
 				exit(1);
 			}
 		}
 		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && _estado == NUEVO_JUEGO)
-		{
-			_estado = MENU_PRINCIPAL;
-		}
+		
 
-		ventana->clear();
-		if (_eleccionMenu == 0)
-		{
-			_nivel = 1;
-			_estado = NUEVO_JUEGO;
-			_eleccionMenu = -1;
-			ReiniciarJuego();
-		}
+		_ventana->clear();
+		
 		Update();
 		Draw();
 
-		ventana->display();
+		_ventana->display();
 	}
 
 }
@@ -40,24 +30,14 @@ void Gameplay::Inicializacion()
 {
 	_eleccionMenu = -1;
 	
-	ventana->setFramerateLimit(60);
+	_ventana->setFramerateLimit(60);
 	_estado = MENU_PRINCIPAL;
 	prBorde.loadFromFile("resources/images/borders.png");
 	_fondo = new Background(JUEGO);
 	sprborde.setTexture(prBorde);
 	sprborde.setPosition(100, 0);
-	if (!_fuentePuntos.loadFromFile("resources/fonts/pixel.ttf"))
-		throw("No se pudo cargar la fuente");
-	_textoPuntos[0].setFont(_fuentePuntos);
-	_textoPuntos[0].setCharacterSize(24);
-	_textoPuntos[0].setFillColor(sf::Color::Blue);
-	_textoPuntos[0].setStyle(sf::Text::Bold);
-	_textoPuntos[0].setPosition(650, 230);
-	_textoPuntos[1].setFont(_fuentePuntos);
-	_textoPuntos[1].setCharacterSize(24);
-	_textoPuntos[1].setFillColor(sf::Color::Red);
-	_textoPuntos[1].setStyle(sf::Text::Bold);
-	_textoPuntos[1].setPosition(650, 260);
+	
+	gestionarTextos();
 }
 
 void Gameplay::Update()
@@ -65,21 +45,46 @@ void Gameplay::Update()
 	switch (_estado)
 	{
 	case MENU_PRINCIPAL:
-		_eleccionMenu = menuPrincipal.Update();
+		_eleccionMenu = _menuPrincipal.Update();
+
+		if (_eleccionMenu == 0)
+		{
+			_nivel = 1;
+			_estado = NUEVO_JUEGO;
+			_vidas = 3;
+			_eleccionMenu = -1;
+			ReiniciarJuego();
+		}
 		break;
 	case NUEVO_JUEGO:
-		if (!servido) {
-			pelotita.setPosition({ paleta.getPosition().x, (paleta.getPosition().y - paleta.getSize().y / 2.f - 20.f) });
-			paleta.Update(pelotita);
+		if (!_servir) {
+			_bola.setPosition({ paleta.getPosition().x, (paleta.getPosition().y - paleta.getSize().y / 2.f - 20.f) });
+			paleta.Update(_bola);
 			ActualizarPuntos();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-				servido = true;
+			{
+				_servir = true;
+			}		
 		}
 		else {
-		paleta.Update(pelotita);
-		mapa.Update(pelotita);
-		pelotita.Update();
+		paleta.Update(_bola);
+		_mapa.Update(_bola);
+		_bola.Update();
 		ActualizarPuntos();
+		if (_bola.getVelocidad().x == 0 && _bola.getVelocidad().y == 0)
+		{
+			_vidas--;
+			_servir = false;
+			_bola.setVelocidad({ 0.f, _bola.getSpeed() * -1 });
+		}
+		if (_vidas == 0)
+		{
+			_estado = MENU_PRINCIPAL;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			_estado = MENU_PRINCIPAL;
+		}
 		}
 		break;
 	case NIVEL_COMPLETADO:
@@ -103,16 +108,16 @@ void Gameplay::Draw()
 	switch (_estado)
 	{
 	case MENU_PRINCIPAL:
-		menuPrincipal.Draw(*ventana);
+		_menuPrincipal.Draw(*_ventana);
 		break;
 	case NUEVO_JUEGO:
-		ventana->draw(_fondo->getDraw());
-		ventana->draw(sprborde);
-		mapa.Draw(*ventana);
-		ventana->draw(paleta.getDraw());
-		ventana->draw(pelotita.getDraw());
-		ventana->draw(_textoPuntos[0]);
-		ventana->draw(_textoPuntos[1]);
+		_ventana->draw(_fondo->getDraw());
+		_ventana->draw(sprborde);
+		_mapa.Draw(*_ventana);
+		_ventana->draw(paleta.getDraw());
+		_ventana->draw(_bola.getDraw());
+		_ventana->draw(_textoPuntos[0]);
+		_ventana->draw(_textoPuntos[1]);
 		break;
 	case NIVEL_COMPLETADO:
 		break;
@@ -132,7 +137,7 @@ void Gameplay::Draw()
 
 void Gameplay::ActualizarPuntos()
 {
-	_puntuacion.setPuntaje(mapa.getBloquesDestruidos() * 900);
+	_puntuacion.setPuntaje(_mapa.getBloquesDestruidos() * 50);
 	if (_puntuacion.getPuntaje() == 0)
 		_textoPuntos[1].setString("00000");
 	else if(_puntuacion.getPuntaje() < 10)
@@ -149,23 +154,35 @@ void Gameplay::ActualizarPuntos()
 
 void Gameplay::ReiniciarJuego()
 {
-	mapa.generarNivel(_nivel);
-	pelotita = Bola();
+	_mapa.generarNivel(_nivel);
+	_bola = Bola();
 	paleta = Paleta();
 	delete _fondo;
 	_fondo = new Background(JUEGO);
-	servido = false;
+	_servir = false;
 	_puntuacion.setPuntaje(0);
 	_textoPuntos[0].setString("SCORE");
 	
 }
 
-
-
-
+void Gameplay::gestionarTextos()
+{
+	if (!_fuentePuntos.loadFromFile("resources/fonts/pixel.ttf"))
+		throw("No se pudo cargar la fuente");
+	_textoPuntos[0].setFont(_fuentePuntos);
+	_textoPuntos[0].setCharacterSize(24);
+	_textoPuntos[0].setFillColor(sf::Color::Blue);
+	_textoPuntos[0].setStyle(sf::Text::Bold);
+	_textoPuntos[0].setPosition(650, 230);
+	_textoPuntos[1].setFont(_fuentePuntos);
+	_textoPuntos[1].setCharacterSize(24);
+	_textoPuntos[1].setFillColor(sf::Color::Red);
+	_textoPuntos[1].setStyle(sf::Text::Bold);
+	_textoPuntos[1].setPosition(650, 260);
+}
 
 Gameplay::~Gameplay()
 {
-	delete ventana;
+	delete _ventana;
 	delete _fondo;
 }

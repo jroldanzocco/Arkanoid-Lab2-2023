@@ -18,7 +18,11 @@ public:
 	GeneradorDeMapas();
 
 	void generarNivel(int nivel);
-
+	int getBloquesActivos() 
+	{
+		int n = static_cast<int>(_bloques.size());
+		return n; 
+	}
 	int getBloquesDestruidos() { return _bloquesDestruidos; }
 
 	void Update(Bola& bola);

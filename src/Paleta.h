@@ -37,12 +37,11 @@ public:
 	void setVelocidad(float velocidad) { _speed = velocidad; }
 	void setEstado(ESTADOS_PALETA estado) { _estado = estado; }
 	sf::RectangleShape getDraw(){return _paleta;}
-	
 	void Update(Bola& bola);
 
 	void Colision(Bola& bola);
-
-		
+	
+	
 	float x() { return _paleta.getPosition().x; }
 	float y() { return _paleta.getPosition().y; }
 	float left() { return x() - _paleta.getOrigin().x; }

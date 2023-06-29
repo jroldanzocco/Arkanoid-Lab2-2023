@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Animacion.h" />
     <ClInclude Include="src\ArchivoPuntajes.h" />
     <ClInclude Include="src\Background.h" />
     <ClInclude Include="src\Bloque.h" />
@@ -33,7 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\Animacion.cpp" />
     <ClCompile Include="src\ArchivoPuntajes.cpp" />
     <ClCompile Include="src\Background.cpp" />
     <ClCompile Include="src\Bloque.cpp" />
