@@ -69,8 +69,6 @@ public:
 	void reiniciarJuego(int nivel);
 	void actualizarPuntos();
 	
-	bool ComprobarGuardado();
-	
 	void registrarPuntaje();
 
 	void sortPuntajes(Puntajes arr[], int n);

@@ -39,6 +39,18 @@ Menu::Menu()
 	_rectFlechas[1].setPosition(500.f, 450.f);
 	_rectFlechas[1].setSize({ 100, 100 });
 
+	_textoClasif[0].setFont(_fuenteVenus);
+	_textoClasif[0].setPosition(150,90);
+	_textoClasif[0].setCharacterSize(24);
+	_textoClasif[0].setFillColor(sf::Color::Black);
+	_textoClasif[0].setString("Nombre");
+	_textoClasif[1].setFont(_fuenteVenus);
+	_textoClasif[1].setPosition(400, 90);
+	_textoClasif[1].setCharacterSize(24);
+	_textoClasif[1].setFillColor(sf::Color::Black);
+	_textoClasif[1].setString("Puntos");
+
+
 	_rectBotones = new sf::RectangleShape[4];
 
 	_txtTablaPos.loadFromFile("resources/images/menu/tabla.png");
@@ -49,11 +61,11 @@ Menu::Menu()
 
 	if (!_fuenteVenus.loadFromFile("resources/fonts/venus.ttf"))
 		throw("No se pudo cargar la fuente");
-	int posY = 100;
+	int posY = 120;
 	for (int i = 0; i < 10; i++)
 	{
 		posiciones[i].setFont(_fuenteVenus);
-		posiciones[i].setCharacterSize(24);
+		posiciones[i].setCharacterSize(21);
 		posiciones[i].setFillColor(sf::Color::Black);
 		posiciones[i].setStyle(sf::Text::Bold);
 		posiciones[i].setPosition(150, posY);
@@ -203,6 +215,8 @@ void Menu::Draw(sf::RenderWindow& ventana)
 		break;
 	case MEJOR_PUNTUACION:
 		ventana.draw(_rectTablaPos);
+		ventana.draw(_textoClasif[0]);
+		ventana.draw(_textoClasif[1]);
 		for (int i = 0; i < 10; i++)
 		{
 			ventana.draw(posiciones[i]);

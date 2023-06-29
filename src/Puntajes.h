@@ -9,7 +9,6 @@ private:
 
 public:
 	Puntajes();
-
 	void setNombre(const char* nombreJugador) { strcpy(_nombreJugador, nombreJugador); }
 	void setPuntaje(int puntaje) { _puntaje = puntaje; }
 

@@ -140,10 +140,12 @@ void Gameplay::Update()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 		{
 			_puntuacion.setNombre(_ingresoNombre.getText().c_str());
-			if(_puntuacion.getPuntaje() > 0)
+			if (_puntuacion.getPuntaje() > 0)
+			{
 				registrarPuntaje();
+			}
+			_estado = MENU_PRINCIPAL;
 		}
-		
 		break;
 	default:
 		break;
@@ -205,6 +207,7 @@ void Gameplay::actualizarPuntos()
 	else 
 		_textoPuntos[1].setString(std::to_string(_puntuacion.getPuntaje()));
 }
+
 
 void Gameplay::reiniciarJuego(int nivel)
 {

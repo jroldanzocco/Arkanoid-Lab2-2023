@@ -34,6 +34,7 @@ private:
 	sf::Font _fuenteVenus;
 	sf::Text textoClasificacion;
 	sf::Text posiciones[10];
+	sf::Text _textoClasif[2];
 public:
 	Menu();
 
@@ -48,7 +49,7 @@ public:
 		{
 			punt[i] = _archPuntaje->leerRegistro(i);
 			s = punt[i].getNombre();
-			posiciones[i].setString(s + "\t" + std::to_string(punt[i].getPuntaje()));
+			posiciones[i].setString(s + "\t\t\t\t" + std::to_string(punt[i].getPuntaje()));
 
 		}
 		
