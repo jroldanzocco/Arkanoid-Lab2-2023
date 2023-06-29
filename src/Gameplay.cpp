@@ -247,10 +247,10 @@ void Gameplay::registrarPuntaje()
 			_archPuntos->guardar(puntAux[i]);
 	}
 
-	for (int i = 0; i < cantReg; i++)
+	/*for (int i = 0; i < cantReg; i++)
 	{
 		std::cout << _archPuntos->leerRegistro(i).getNombre() << " " << _archPuntos->leerRegistro(i).getPuntaje() << std::endl;
-	}
+	}*/
 
 	delete[] puntAux;
 
