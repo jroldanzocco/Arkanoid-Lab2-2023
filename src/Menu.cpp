@@ -56,7 +56,7 @@ int Menu::Update()
 	switch (_estado)
 	{
 	case PRINCIPAL:
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && _reloj.getElapsedTime().asMilliseconds() >= 300)
 		{
 			_botonSeleccionado--;
 			_segundoBoton--;
@@ -83,9 +83,9 @@ int Menu::Update()
 			_sprBotones[1].setTexture(&_txtBotonChico[_segundoBoton]);
 			_sprBotones[2].setTexture(&_txtBotonChico[_tercerBoton]);
 			_sprBotones[3].setTexture(&_txtBotonChico[_cuartoBoton]);
-			sf::sleep(sf::milliseconds(100));
+			_reloj.restart();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && _reloj.getElapsedTime().asMilliseconds() >= 300)
 		{
 			_botonSeleccionado++;
 			_segundoBoton++;
@@ -112,7 +112,7 @@ int Menu::Update()
 			_sprBotones[1].setTexture(&_txtBotonChico[_segundoBoton]);
 			_sprBotones[2].setTexture(&_txtBotonChico[_tercerBoton]);
 			_sprBotones[3].setTexture(&_txtBotonChico[_cuartoBoton]);
-			sf::sleep(sf::milliseconds(100));
+			_reloj.restart();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 		{

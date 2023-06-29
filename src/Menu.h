@@ -20,6 +20,7 @@ private:
 	sf::Texture* _txtBotonChico;
 	sf::RectangleShape* _sprBotones;
 	ESTADOS_MENU _estado;
+	sf::Clock _reloj;
 public:
 	Menu();
 
