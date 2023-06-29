@@ -3,6 +3,10 @@
 
 Menu::Menu()
 {
+	_txtLogo.loadFromFile("resources/images/menu/logo.png");
+	_rectLogo.setTexture(&_txtLogo);
+	_rectLogo.setPosition(200, 100);
+	_rectLogo.setSize({ 400, 100 });
 	_archPuntaje = new ArchivoPuntajes("leaderboard.dat");
 	_estado = PRINCIPAL;
 	_fondo = new Background(MENU);
@@ -184,6 +188,7 @@ void Menu::Draw(sf::RenderWindow& ventana)
 {
 	
 	ventana.draw(_fondo->getDraw());
+	ventana.draw(_rectLogo);
 	switch (_estado)
 	{
 	case PRINCIPAL:

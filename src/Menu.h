@@ -28,7 +28,8 @@ private:
 	sf::RectangleShape* _rectBotones;
 	ESTADOS_MENU _estado;
 	sf::Clock _reloj;
-
+	sf::Texture _txtLogo;
+	sf::RectangleShape _rectLogo;
 
 	sf::Font _fuenteVenus;
 	sf::Text textoClasificacion;
