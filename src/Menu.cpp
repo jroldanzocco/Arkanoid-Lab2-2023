@@ -4,7 +4,7 @@
 Menu::Menu()
 {
 	_estado = PRINCIPAL;
-
+	_fondo = new Background(MENU);
 	_botonSeleccionado = 0;
 	_segundoBoton = 1;
 	_tercerBoton = 2;
@@ -148,7 +148,7 @@ int Menu::Update()
 
 void Menu::Draw(sf::RenderWindow& ventana)
 {
-	_fondo = new Background(MENU);
+	
 	ventana.draw(_fondo->getDraw());
 	switch (_estado)
 	{
@@ -170,6 +170,8 @@ void Menu::Draw(sf::RenderWindow& ventana)
 Menu::~Menu()
 {
 	delete _fondo;
-	delete _txtBotonChico;
-	delete _txtBotonGrande;
+	delete[] _txtBotonChico;
+	delete[] _txtBotonGrande;
+	delete[] _sprBotones;
+
 }

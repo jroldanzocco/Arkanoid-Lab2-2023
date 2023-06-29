@@ -14,8 +14,6 @@ class Menu
 {
 private:
 	Background * _fondo;
-	//sf::Event _evento;
-	//sf::Font _fuente;
 	sf::Text _textPlay;
 	int _botonSeleccionado, _segundoBoton, _tercerBoton, _cuartoBoton;
 	sf::Texture* _txtBotonGrande;
