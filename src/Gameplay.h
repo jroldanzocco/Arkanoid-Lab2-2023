@@ -15,6 +15,7 @@ enum ESTADOS_GAMEPLAY
 	MENU_PRINCIPAL,
 	NUEVO_JUEGO,
 	NIVEL_COMPLETADO,
+	VICTORIA,
 	DERROTA
 };
 
@@ -46,7 +47,7 @@ private:
 	sf::Text _textoDerrota;
 
 	int _eleccionMenu;
-	int _nivel;
+	int _nivel, _nivelMax = 1;
 	int _vidas;
 	bool _servir;
 	

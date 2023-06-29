@@ -94,9 +94,10 @@ void Gameplay::Update()
 			_estado = MENU_PRINCIPAL;
 		}
 		if (_vidas == 0)
-		{
 			_estado = DERROTA;
-		}
+		if (_nivel == _nivelMax && _mapa.getBloquesActivos() == 0)
+			_estado = VICTORIA;
+
 		if (_vidas == 3)
 			_rectVidas.setTextureRect(sf::IntRect(0, 0, 795, 230));
 		else if(_vidas == 2)
@@ -108,6 +109,17 @@ void Gameplay::Update()
 		}
 		break;
 	case NIVEL_COMPLETADO:
+		break;
+	case VICTORIA:
+		_rectVictODerr.setTexture(&_texturasVictODerr[1]);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		{
+			_puntuacion.setNombre(_ingresoNombre.getText().c_str());
+			if (_puntuacion.getPuntaje() > 0)
+				registrarPuntaje();
+
+			_estado = MENU_PRINCIPAL;
+		}
 		break;
 	case DERROTA:
 		_rectVictODerr.setTexture(&_texturasVictODerr[0]);
@@ -154,6 +166,11 @@ void Gameplay::Draw()
 		_ventana->draw(_ingresoNombre.getDraw());
 		_ventana->draw(_textoDerrota);
 		break;
+	case VICTORIA:
+		_ventana->draw(_fondo->getDraw());
+		_ventana->draw(_rectVictODerr);
+		_ventana->draw(_ingresoNombre.getDraw());
+		_ventana->draw(_textoDerrota);
 	default:
 		break;
 	}
@@ -246,11 +263,6 @@ void Gameplay::registrarPuntaje()
 		if (puntAux[i].getPuntaje() != 0)
 			_archPuntos->guardar(puntAux[i]);
 	}
-
-	/*for (int i = 0; i < cantReg; i++)
-	{
-		std::cout << _archPuntos->leerRegistro(i).getNombre() << " " << _archPuntos->leerRegistro(i).getPuntaje() << std::endl;
-	}*/
 
 	delete[] puntAux;
 
