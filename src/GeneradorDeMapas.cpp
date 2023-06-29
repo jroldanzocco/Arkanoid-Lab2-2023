@@ -104,7 +104,7 @@ void GeneradorDeMapas::Update(Bola& bola)
 		{
 			_bloquesDestruidos += 1;
 			_bloques.erase(_bloques.begin() + i);
-			if (_bloquesDestruidos == 1)
+			if (_bloquesDestruidos == 2)
 			{
 				bola.setVelocidad({ bola.getSpeed() * -1 , bola.getVelocidad().y });
 			}

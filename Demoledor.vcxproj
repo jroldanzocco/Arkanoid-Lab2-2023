@@ -24,6 +24,7 @@
     <ClInclude Include="src\Background.h" />
     <ClInclude Include="src\Bloque.h" />
     <ClInclude Include="src\Bola.h" />
+    <ClInclude Include="src\CajaDeTexto.h" />
     <ClInclude Include="src\Gameplay.h" />
     <ClInclude Include="src\GeneradorDeMapas.h" />
     <ClInclude Include="src\Menu.h" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\Background.cpp" />
     <ClCompile Include="src\Bloque.cpp" />
     <ClCompile Include="src\Bola.cpp" />
+    <ClCompile Include="src\CajaDeTexto.cpp" />
     <ClCompile Include="src\Gameplay.cpp" />
     <ClCompile Include="src\GeneradorDeMapas.cpp" />
     <ClCompile Include="src\Menu.cpp" />
